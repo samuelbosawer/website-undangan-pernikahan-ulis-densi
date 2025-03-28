@@ -70,48 +70,45 @@
                             <i class="fa-solid fa-clipboard"></i> Salin Link Undangan
                               <!-- UDANGAN -->
     <script>
-        const copyBtn = document.getElementById('btn-undangan')
-        const copyText = document.getElementById('tamu')
+     document.addEventListener("DOMContentLoaded", function () {
+    const copyBtn = document.getElementById("btn-undangan");
+    const copyText = document.getElementById("tamu");
 
-        copyBtn.onclick = () => {
-            copyText.select();
-            let teks = copyText.value;
-            if(teks === '')
-            {
-                Swal.fire({         //displays a pop up with sweetalert
-                icon: 'error',
-                text: 'Masukan nama tamu dengan benar',
+    copyBtn.addEventListener("click", async () => {
+        let teks = copyText.value.trim();
+        
+        if (teks === "") {
+            Swal.fire({
+                icon: "error",
+                text: "Masukkan nama tamu dengan benar",
                 showConfirmButton: true,
-                timer: 3000
+                timer: 3000,
             });
-            }else{
-                let nama = teks.replace(/ /g,"-");
-                let base_url = window.location.href;
-                let url = `Kepada Yth:
-Bapak/Ibu/Saudara/i
-
-*${teks}*
-
-Kami dengan suka cita mengundang Bapak/Ibu/Saudara/i untuk memberikan doa dan restu pada resepsi & pernikahan kami.
-
-https://ulis.densi.projectbos.web.id/index.html?nama=${nama}
-
-*Ulis & Densi*
-
-Terimakasih 
-😇🙏🏼😇`;
-                navigator.clipboard.writeText(url);
-                // let url =
-                document.execCommand('copy');    // Simply copies the selected text to clipboard 
-                Swal.fire({         //displays a pop up with sweetalert
-                    icon: 'success',
-                    text: 'Link sudah tersalin !!',
+        } else {
+            let nama = encodeURIComponent(teks);
+            let base_url = window.location.origin;
+            let url = `Kepada Yth:\nBapak/Ibu/Saudara/i\n\n*${teks}*\n\nKami dengan suka cita mengundang Bapak/Ibu/Saudara/i untuk memberikan doa dan restu pada resepsi & pernikahan kami.\n\n${base_url}/index.html?nama=${nama}\n\n*Ulis & Densi*\n\nTerimakasih \n😇🙏🏼😇`;
+            
+            try {
+                await navigator.clipboard.writeText(url);
+                Swal.fire({
+                    icon: "success",
+                    text: "Link sudah tersalin !!",
                     showConfirmButton: true,
-                    timer: 3000
+                    timer: 3000,
+                });
+            } catch (err) {
+                Swal.fire({
+                    icon: "error",
+                    text: "Gagal menyalin teks, silakan salin secara manual",
+                    showConfirmButton: true,
+                    timer: 3000,
                 });
             }
-        
         }
+    });
+});
+
     </script>
                         </a>
                     </div>
